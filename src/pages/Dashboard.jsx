@@ -17,6 +17,9 @@ import Icebreakers           from '../components/dashboard/Icebreakers'
 import CommunicationStyle    from '../components/dashboard/CommunicationStyle'
 import MisunderstandingResolver from '../components/dashboard/MisunderstandingResolver'
 import ConnectionQuestions    from '../components/dashboard/ConnectionQuestions'
+import LoveLanguages          from '../components/dashboard/LoveLanguages'
+import SweetMessages          from '../components/dashboard/SweetMessages'
+import MakeThemHappy          from '../components/dashboard/MakeThemHappy'
 
 // ── UI atoms ──────────────────────────────────────────────────────────────────
 
@@ -280,6 +283,9 @@ export default function Dashboard() {
     memory_box             = [],
     activity_suggestions   = [],
     connection_questions   = [],
+    love_languages         = {},
+    sweet_messages         = [],
+    make_them_happy        = {},
     safety_flag            = false,
     generated_at,
   } = report
@@ -369,6 +375,21 @@ export default function Dashboard() {
         {/* 7 — Connection questions (deep questions to grow closer) */}
         {connection_questions.length > 0 && (
           <ConnectionQuestions questions={connection_questions} />
+        )}
+
+        {/* 8 — Love languages (how to make each other feel loved) */}
+        {(love_languages?.person_a || love_languages?.person_b) && (
+          <LoveLanguages data={love_languages} />
+        )}
+
+        {/* 9 — Sweet messages (ready-to-send heartfelt notes) */}
+        {sweet_messages.length > 0 && (
+          <SweetMessages messages={sweet_messages} />
+        )}
+
+        {/* 10 — Little things that make them happy */}
+        {(make_them_happy?.person_a || make_them_happy?.person_b) && (
+          <MakeThemHappy data={make_them_happy} />
         )}
 
       </div>
