@@ -404,6 +404,9 @@ export default function Analyze() {
   const [selectedPartner, setSelectedPartner] = useState(null) // { name, displayName, folderName? }
   const [cleanMessages, setCleanMessages]     = useState([])
 
+  // Report language
+  const [language, setLanguage] = useState('english')
+
   // ── File accepted → parse immediately ─────────────────────────────────────
   const handleFileAccepted = useCallback(async (info) => {
     if (!info) {
@@ -502,6 +505,7 @@ export default function Analyze() {
       const analysis = await submitAnalysis({
         platform:     fileInfo.type,   // 'instagram' | 'whatsapp'
         partner_name: partnerName,
+        language,                       // 'english' | 'spanish' | 'darija'
         messages,
       })
 
@@ -527,7 +531,7 @@ export default function Analyze() {
         setStep(STEP.CONSENT)
       }
     }
-  }, [cleanMessages, selectedPartner, fileInfo, submitAnalysis, pollStatus, navigate])
+  }, [cleanMessages, selectedPartner, fileInfo, language, submitAnalysis, pollStatus, navigate])
 
   // ── Render ──────────────────────────────────────────────────────────────────
 
@@ -673,6 +677,33 @@ export default function Analyze() {
               </div>
             </div>
           )}
+
+          {/* Report language selector */}
+          <div className="glass rounded-2xl border border-white/8 p-4">
+            <p className="text-sm font-medium text-white mb-1">Report language</p>
+            <p className="text-xs text-slate-400 mb-3">Choose the language your insights are written in.</p>
+            <div className="grid grid-cols-3 gap-2">
+              {[
+                { id: 'english', label: 'English',  flag: '🇬🇧' },
+                { id: 'spanish', label: 'Español',  flag: '🇪🇸' },
+                { id: 'darija',  label: 'الدارجة',  flag: '🇲🇦' },
+              ].map((opt) => (
+                <button
+                  key={opt.id}
+                  type="button"
+                  onClick={() => setLanguage(opt.id)}
+                  className={`flex flex-col items-center gap-1 py-2.5 rounded-xl border text-sm transition-all ${
+                    language === opt.id
+                      ? 'bg-brand-500/15 border-brand-500/40 text-white'
+                      : 'bg-white/3 border-white/8 text-slate-400 hover:border-white/20'
+                  }`}
+                >
+                  <span className="text-lg leading-none">{opt.flag}</span>
+                  <span>{opt.label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
 
           <ConsentGate
             messageCount={cleanMessages.length}
