@@ -21,8 +21,14 @@ export default function Login() {
       navigate('/analyze')
     } catch (err) {
       const data = err.response?.data
-      if (data?.error?.details) setErrors(data.error.details)
-      else toast.error(data?.error?.message || 'Login failed. Please try again.')
+      const fieldErrors = data?.error?.errors || data?.error?.details
+      if (fieldErrors) {
+        setErrors(fieldErrors)
+        const first = Object.values(fieldErrors)[0]
+        toast.error(Array.isArray(first) ? first[0] : String(first))
+      } else {
+        toast.error(data?.error?.message || 'Login failed. Please try again.')
+      }
     }
   }
 
