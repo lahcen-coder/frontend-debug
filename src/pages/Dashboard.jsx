@@ -16,6 +16,7 @@ import MemoryBox             from '../components/dashboard/MemoryBox'
 import Icebreakers           from '../components/dashboard/Icebreakers'
 import CommunicationStyle    from '../components/dashboard/CommunicationStyle'
 import MisunderstandingResolver from '../components/dashboard/MisunderstandingResolver'
+import ConnectionQuestions    from '../components/dashboard/ConnectionQuestions'
 
 // ── UI atoms ──────────────────────────────────────────────────────────────────
 
@@ -278,6 +279,7 @@ export default function Dashboard() {
     misunderstanding_resolver = {},
     memory_box             = [],
     activity_suggestions   = [],
+    connection_questions   = [],
     safety_flag            = false,
     generated_at,
   } = report
@@ -362,6 +364,11 @@ export default function Dashboard() {
         {/* 6 — Activity suggestions (personalised ideas + copy button) */}
         {activity_suggestions.length > 0 && (
           <Icebreakers suggestions={activity_suggestions} />
+        )}
+
+        {/* 7 — Connection questions (deep questions to grow closer) */}
+        {connection_questions.length > 0 && (
+          <ConnectionQuestions questions={connection_questions} />
         )}
 
       </div>
