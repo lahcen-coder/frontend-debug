@@ -32,9 +32,6 @@ const INBOX_PREFIX_RE = /^(?:.*\/)?messages\/inbox\/([^/]+)\/message_\d+\.json$/
 /** System/automated message senders to ignore. */
 const SYSTEM_SENDER_RE = /^(Instagram User|instagrammer)$/i;
 
-/** Types of messages that carry user-authored text content. */
-const TEXT_MESSAGE_TYPES = new Set(['Generic']);
-
 // ── Encoding Fix ───────────────────────────────────────────────────────────────
 
 /**
@@ -278,43 +275,41 @@ function processMessage(msg, myName, includeMedia, includeDeleted) {
   const ts = msg.timestamp_ms ?? 0;
   const timestamp = ts ? new Date(ts).toISOString() : new Date().toISOString();
 
-  // Handle different message types
-  if (TEXT_MESSAGE_TYPES.has(msg.type)) {
-    // Standard text message
-    if (msg.content) {
-      const text = fixEncoding(msg.content).trim();
-      if (!text) return null;
-      // Filter out the standard system string Instagram appends
-      if (text.startsWith('Reacted') && text.includes('to your message')) return null;
-      return { sender, text, timestamp, _ts: ts };
-    }
-
-    // Media-only message (photo, video, audio, file, sticker)
-    if (includeMedia) {
-      const mediaType =
-        msg.photos ? 'photo' :
-        msg.videos ? 'video' :
-        msg.audio_files ? 'audio' :
-        msg.files ? 'file' :
-        msg.sticker ? 'sticker' :
-        'media';
-      return { sender, text: `[${mediaType}]`, timestamp, _ts: ts };
-    }
-
-    return null;
-  }
-
   // Deleted / unsent messages
   if (msg.is_unsent ?? false) {
     return includeDeleted ? { sender, text: '[deleted]', timestamp, _ts: ts } : null;
   }
 
-  // Share messages (links, profiles shared from feed)
-  if (msg.type === 'Share' && msg.share?.link) {
+  // Text content — key off the presence of `content`, NOT msg.type.
+  // Instagram uses "Generic" for text today, but the type field is unreliable
+  // across export versions, so we treat any message with real text as text.
+  if (typeof msg.content === 'string' && msg.content.trim() !== '') {
+    const text = fixEncoding(msg.content).trim();
+    if (!text) return null;
+    // Filter out Instagram's automated reaction / like notifications
+    if (/reacted .+ to your message/i.test(text)) return null;
+    if (/^liked a message$/i.test(text)) return null;
+    return { sender, text, timestamp, _ts: ts };
+  }
+
+  // Shared content (links, reels, profiles)
+  if (msg.share?.link) {
     return { sender, text: `[link: ${msg.share.link}]`, timestamp, _ts: ts };
   }
 
-  // Call events, subscriptions, etc. — skip
+  // Media-only message (photo, video, audio, file, sticker)
+  if (includeMedia) {
+    const mediaType =
+      msg.photos ? 'photo' :
+      msg.videos ? 'video' :
+      msg.audio_files ? 'audio' :
+      msg.files ? 'file' :
+      msg.sticker ? 'sticker' :
+      null;
+    if (mediaType) return { sender, text: `[${mediaType}]`, timestamp, _ts: ts };
+  }
+
+  // Call events, subscriptions, reactions, etc. — skip
   return null;
 }
 
