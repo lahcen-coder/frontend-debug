@@ -20,6 +20,9 @@ import ConnectionQuestions    from '../components/dashboard/ConnectionQuestions'
 import LoveLanguages          from '../components/dashboard/LoveLanguages'
 import SweetMessages          from '../components/dashboard/SweetMessages'
 import MakeThemHappy          from '../components/dashboard/MakeThemHappy'
+import TopWords               from '../components/dashboard/TopWords'
+import MostPositive           from '../components/dashboard/MostPositive'
+import ConversationSummary    from '../components/dashboard/ConversationSummary'
 
 // ── UI atoms ──────────────────────────────────────────────────────────────────
 
@@ -286,6 +289,9 @@ export default function Dashboard() {
     love_languages         = {},
     sweet_messages         = [],
     make_them_happy        = {},
+    top_words              = [],
+    most_positive          = {},
+    conversation_summary   = '',
     safety_flag            = false,
     generated_at,
   } = report
@@ -391,6 +397,15 @@ export default function Dashboard() {
         {(make_them_happy?.person_a || make_them_happy?.person_b) && (
           <MakeThemHappy data={make_them_happy} />
         )}
+
+        {/* 11 — Words you use most */}
+        {top_words.length > 0 && <TopWords words={top_words} />}
+
+        {/* 12 — Who brings the most positivity */}
+        {most_positive?.name && <MostPositive data={most_positive} />}
+
+        {/* 13 — One-sentence summary (always last) */}
+        {conversation_summary && <ConversationSummary summary={conversation_summary} />}
 
       </div>
 
