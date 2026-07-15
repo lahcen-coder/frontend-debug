@@ -1,4 +1,5 @@
 import { Hash } from 'lucide-react'
+import { getLabel } from '../../lib/reportLabels'
 
 function isRTL(text = '') {
   return /[\u0600-\u06FF\u0750-\u077F]/.test(text)
@@ -8,7 +9,7 @@ function isRTL(text = '') {
  * report.top_words → [{ word, count }]
  * The words/phrases the two people use the most.
  */
-export default function TopWords({ words = [] }) {
+export default function TopWords({ words = [], language = 'english' }) {
   if (!words.length) return null
 
   const max = Math.max(...words.map((w) => w.count || 1), 1)
@@ -19,7 +20,7 @@ export default function TopWords({ words = [] }) {
         <div className="w-7 h-7 rounded-lg bg-cyan-500/15 flex items-center justify-center">
           <Hash size={14} className="text-cyan-400" />
         </div>
-        <h2 className="font-semibold text-white text-lg">Words You Use Most</h2>
+        <h2 className="font-semibold text-white text-lg">{getLabel('top_words', language)}</h2>
       </div>
 
       <div className="flex flex-wrap gap-2">

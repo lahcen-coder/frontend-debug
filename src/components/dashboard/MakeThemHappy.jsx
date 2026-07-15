@@ -1,4 +1,5 @@
 import { Sparkles, Smile } from 'lucide-react'
+import { getLabel } from '../../lib/reportLabels'
 
 function isRTL(text = '') {
   return /[\u0600-\u06FF\u0750-\u077F]/.test(text)
@@ -42,7 +43,7 @@ function PersonCard({ person, index }) {
 /**
  * report.make_them_happy → { person_a: { name, tips[] }, person_b: {...} }
  */
-export default function MakeThemHappy({ data = {} }) {
+export default function MakeThemHappy({ data = {}, language = 'english' }) {
   const { person_a, person_b } = data
   const hasA = person_a && (person_a.name || person_a.tips?.length)
   const hasB = person_b && (person_b.name || person_b.tips?.length)
@@ -55,7 +56,7 @@ export default function MakeThemHappy({ data = {} }) {
         <div className="w-7 h-7 rounded-lg bg-amber-500/15 flex items-center justify-center">
           <Sparkles size={14} className="text-amber-400" />
         </div>
-        <h2 className="font-semibold text-white text-lg">Little Things That Make Them Happy</h2>
+        <h2 className="font-semibold text-white text-lg">{getLabel('make_them_happy', language)}</h2>
       </div>
 
       <div className="grid sm:grid-cols-2 gap-3">

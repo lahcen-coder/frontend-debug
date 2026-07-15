@@ -1,4 +1,5 @@
 import { Sun } from 'lucide-react'
+import { getLabel } from '../../lib/reportLabels'
 
 function isRTL(text = '') {
   return /[\u0600-\u06FF\u0750-\u077F]/.test(text)
@@ -8,7 +9,7 @@ function isRTL(text = '') {
  * report.most_positive → { name, reason }
  * Highlights whoever brings the most positivity to the conversation.
  */
-export default function MostPositive({ data = {} }) {
+export default function MostPositive({ data = {}, language = 'english' }) {
   const { name, reason } = data
   if (!name) return null
 
@@ -20,7 +21,7 @@ export default function MostPositive({ data = {} }) {
         <div className="w-7 h-7 rounded-lg bg-yellow-500/15 flex items-center justify-center">
           <Sun size={14} className="text-yellow-400" />
         </div>
-        <h2 className="font-semibold text-white text-lg">The Ray of Sunshine</h2>
+        <h2 className="font-semibold text-white text-lg">{getLabel('most_positive', language)}</h2>
       </div>
 
       <div className="flex items-start gap-4 p-5 rounded-2xl

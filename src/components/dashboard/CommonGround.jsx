@@ -1,4 +1,5 @@
 import { Compass } from 'lucide-react'
+import { getLabel } from '../../lib/reportLabels'
 
 // ── Tag colour palette (cycles through) ──────────────────────────────────────
 
@@ -49,7 +50,7 @@ function JokeCard({ text, index }) {
  *   report.common_interests  → string[]
  *   report.memory_box        → [{ type, moment, quote }]  (inside jokes sourced here if needed)
  */
-export default function CommonGround({ interests = [], insideJokes = [] }) {
+export default function CommonGround({ interests = [], insideJokes = [], language = 'english' }) {
   if (!interests.length && !insideJokes.length) return null
 
   return (
@@ -58,7 +59,7 @@ export default function CommonGround({ interests = [], insideJokes = [] }) {
         <div className="w-7 h-7 rounded-lg bg-blue-500/15 flex items-center justify-center">
           <Compass size={14} className="text-blue-400" />
         </div>
-        <h2 className="font-semibold text-white text-lg">Common Ground</h2>
+        <h2 className="font-semibold text-white text-lg">{getLabel('common_ground', language)}</h2>
         {interests.length > 0 && (
           <span className="ml-auto text-xs text-slate-500">
             {interests.length} shared interest{interests.length !== 1 ? 's' : ''}

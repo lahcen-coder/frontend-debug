@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { MessagesSquare, Copy, CheckCheck, HelpCircle } from 'lucide-react'
 import { toast } from 'react-hot-toast'
+import { getLabel } from '../../lib/reportLabels'
 
 // Detect RTL (Arabic / Darija) text so questions render right-to-left.
 function isRTL(text = '') {
@@ -50,7 +51,7 @@ function QuestionCard({ item, index, copied, onCopy }) {
  * report.connection_questions → [{ question, why }]
  * Deep, heartfelt questions the two people can ask each other to grow closer.
  */
-export default function ConnectionQuestions({ questions = [] }) {
+export default function ConnectionQuestions({ questions = [], language = 'english' }) {
   const [copied, setCopied] = useState(null)
 
   const handleCopy = async (text, index) => {
@@ -72,7 +73,7 @@ export default function ConnectionQuestions({ questions = [] }) {
         <div className="w-7 h-7 rounded-lg bg-pink-500/15 flex items-center justify-center">
           <MessagesSquare size={14} className="text-pink-400" />
         </div>
-        <h2 className="font-semibold text-white text-lg">Questions to Grow Closer</h2>
+        <h2 className="font-semibold text-white text-lg">{getLabel('connection_questions', language)}</h2>
         <span className="ml-auto text-xs text-slate-500">
           {questions.length} question{questions.length !== 1 ? 's' : ''}
         </span>

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { HeartHandshake, ChevronDown, ChevronUp, CheckCircle2 } from 'lucide-react'
+import { getLabel } from '../../lib/reportLabels'
 
 // ── Resolution accordion card ─────────────────────────────────────────────────
 
@@ -96,7 +97,7 @@ function NoConflicts() {
  *     resolutions: [{ original_tension, likely_need_a, likely_need_b, reframe }]
  *   }
  */
-export default function MisunderstandingResolver({ data = {} }) {
+export default function MisunderstandingResolver({ data = {}, language = 'english' }) {
   const { conflicts_detected = 0, resolutions = [] } = data
 
   if (!resolutions && conflicts_detected === 0) return null
@@ -107,7 +108,7 @@ export default function MisunderstandingResolver({ data = {} }) {
         <div className="w-7 h-7 rounded-lg bg-amber-500/15 flex items-center justify-center">
           <HeartHandshake size={14} className="text-amber-400" />
         </div>
-        <h2 className="font-semibold text-white text-lg">Misunderstanding Resolver</h2>
+        <h2 className="font-semibold text-white text-lg">{getLabel('misunderstanding_resolver', language)}</h2>
         {conflicts_detected > 0 && (
           <span className="ml-auto px-2.5 py-0.5 rounded-full bg-amber-500/12 border
             border-amber-500/20 text-xs text-amber-400">

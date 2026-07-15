@@ -1,4 +1,5 @@
 import { Sparkles } from 'lucide-react'
+import { getLabel } from '../../lib/reportLabels'
 
 // ── Memory type config ────────────────────────────────────────────────────────
 
@@ -76,7 +77,7 @@ function MemoryCard({ memory, index }) {
  *   report.memory_box → [{ type: 'funny'|'sweet'|'milestone', moment, quote }]
  *   Up to 3 items returned by the AI.
  */
-export default function MemoryBox({ memories = [] }) {
+export default function MemoryBox({ memories = [], language = 'english' }) {
   if (!memories.length) return null
 
   return (
@@ -85,7 +86,7 @@ export default function MemoryBox({ memories = [] }) {
         <div className="w-7 h-7 rounded-lg bg-amber-500/15 flex items-center justify-center">
           <Sparkles size={14} className="text-amber-400" />
         </div>
-        <h2 className="font-semibold text-white text-lg">Memory Box</h2>
+        <h2 className="font-semibold text-white text-lg">{getLabel('memory_box', language)}</h2>
         <span className="ml-auto text-xs text-slate-500">
           {memories.length} moment{memories.length !== 1 ? 's' : ''}
         </span>

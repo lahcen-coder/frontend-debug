@@ -1,4 +1,5 @@
 import { MessageCircle, TrendingUp, Smile, Timer, Repeat2 } from 'lucide-react'
+import { getLabel } from '../../lib/reportLabels'
 
 // ── Profile card ──────────────────────────────────────────────────────────────
 
@@ -93,7 +94,7 @@ function PersonCard({ person, index }) {
  * New Phase 2 schema:
  *   report.communication_style → { person_a: CommunicationProfile, person_b: CommunicationProfile }
  */
-export default function CommunicationStyle({ data = {} }) {
+export default function CommunicationStyle({ data = {}, language = 'english' }) {
   const { person_a, person_b } = data
 
   if (!person_a && !person_b) return null
@@ -104,7 +105,7 @@ export default function CommunicationStyle({ data = {} }) {
         <div className="w-7 h-7 rounded-lg bg-violet-500/15 flex items-center justify-center">
           <MessageCircle size={14} className="text-violet-400" />
         </div>
-        <h2 className="font-semibold text-white text-lg">Communication Styles</h2>
+        <h2 className="font-semibold text-white text-lg">{getLabel('communication_styles', language)}</h2>
       </div>
 
       <div className="grid sm:grid-cols-2 gap-3">

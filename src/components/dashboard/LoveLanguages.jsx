@@ -1,4 +1,5 @@
 import { Heart, Gift } from 'lucide-react'
+import { getLabel } from '../../lib/reportLabels'
 
 function isRTL(text = '') {
   return /[\u0600-\u06FF\u0750-\u077F]/.test(text)
@@ -49,7 +50,7 @@ function PersonCard({ person, index }) {
 /**
  * report.love_languages → { person_a: { name, primary, how_to_show_love[] }, person_b: {...} }
  */
-export default function LoveLanguages({ data = {} }) {
+export default function LoveLanguages({ data = {}, language = 'english' }) {
   const { person_a, person_b } = data
   const hasA = person_a && (person_a.name || person_a.primary || person_a.how_to_show_love?.length)
   const hasB = person_b && (person_b.name || person_b.primary || person_b.how_to_show_love?.length)
@@ -62,7 +63,7 @@ export default function LoveLanguages({ data = {} }) {
         <div className="w-7 h-7 rounded-lg bg-pink-500/15 flex items-center justify-center">
           <Gift size={14} className="text-pink-400" />
         </div>
-        <h2 className="font-semibold text-white text-lg">Love Languages</h2>
+        <h2 className="font-semibold text-white text-lg">{getLabel('love_languages', language)}</h2>
       </div>
 
       <div className="grid sm:grid-cols-2 gap-3">

@@ -278,6 +278,8 @@ export default function Dashboard() {
   if (error || !report) return <ErrorState message={error} onRetry={load} />
 
   // ── Data extraction (new Phase 2 schema) ───────────────────────────────────
+  const language = meta?.language || 'english'
+
   const {
     chemistry_score        = 0,
     common_interests       = [],
@@ -353,59 +355,61 @@ export default function Dashboard() {
       <div className="space-y-5">
 
         {/* 1 — Chemistry score (always first — the "aha" moment) */}
-        <ChemistryScore score={chemistry_score} breakdown={{}} />
+        <ChemistryScore score={chemistry_score} breakdown={{}} language={language} />
 
         {/* 2 — Common interests + inside jokes (colourful, light) */}
         {(common_interests.length > 0 || insideJokes.length > 0) && (
-          <CommonGround interests={common_interests} insideJokes={insideJokes} />
+          <CommonGround interests={common_interests} insideJokes={insideJokes} language={language} />
         )}
 
         {/* 3 — Communication styles (side-by-side profile cards) */}
         {(communication_style?.person_a || communication_style?.person_b) && (
-          <CommunicationStyle data={communication_style} />
+          <CommunicationStyle data={communication_style} language={language} />
         )}
 
         {/* 4 — Misunderstanding resolver (accordion) */}
         {misunderstanding_resolver && (
-          <MisunderstandingResolver data={misunderstanding_resolver} />
+          <MisunderstandingResolver data={misunderstanding_resolver} language={language} />
         )}
 
         {/* 5 — Memory box (top 3 moments) */}
-        {memory_box.length > 0 && <MemoryBox memories={memory_box} />}
+        {memory_box.length > 0 && <MemoryBox memories={memory_box} language={language} />}
 
         {/* 6 — Activity suggestions (personalised ideas + copy button) */}
         {activity_suggestions.length > 0 && (
-          <Icebreakers suggestions={activity_suggestions} />
+          <Icebreakers suggestions={activity_suggestions} language={language} />
         )}
 
         {/* 7 — Connection questions (deep questions to grow closer) */}
         {connection_questions.length > 0 && (
-          <ConnectionQuestions questions={connection_questions} />
+          <ConnectionQuestions questions={connection_questions} language={language} />
         )}
 
         {/* 8 — Love languages (how to make each other feel loved) */}
         {(love_languages?.person_a || love_languages?.person_b) && (
-          <LoveLanguages data={love_languages} />
+          <LoveLanguages data={love_languages} language={language} />
         )}
 
         {/* 9 — Sweet messages (ready-to-send heartfelt notes) */}
         {sweet_messages.length > 0 && (
-          <SweetMessages messages={sweet_messages} />
+          <SweetMessages messages={sweet_messages} language={language} />
         )}
 
         {/* 10 — Little things that make them happy */}
         {(make_them_happy?.person_a || make_them_happy?.person_b) && (
-          <MakeThemHappy data={make_them_happy} />
+          <MakeThemHappy data={make_them_happy} language={language} />
         )}
 
         {/* 11 — Words you use most */}
-        {top_words.length > 0 && <TopWords words={top_words} />}
+        {top_words.length > 0 && <TopWords words={top_words} language={language} />}
 
         {/* 12 — Who brings the most positivity */}
-        {most_positive?.name && <MostPositive data={most_positive} />}
+        {most_positive?.name && <MostPositive data={most_positive} language={language} />}
 
         {/* 13 — One-sentence summary (always last) */}
-        {conversation_summary && <ConversationSummary summary={conversation_summary} />}
+        {conversation_summary && (
+          <ConversationSummary summary={conversation_summary} language={language} />
+        )}
 
       </div>
 

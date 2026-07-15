@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Mail, Copy, CheckCheck } from 'lucide-react'
 import { toast } from 'react-hot-toast'
+import { getLabel } from '../../lib/reportLabels'
 
 function isRTL(text = '') {
   return /[\u0600-\u06FF\u0750-\u077F]/.test(text)
@@ -52,7 +53,7 @@ function MessageCard({ item, index, copied, onCopy }) {
 /**
  * report.sweet_messages → [{ text, occasion }]
  */
-export default function SweetMessages({ messages = [] }) {
+export default function SweetMessages({ messages = [], language = 'english' }) {
   const [copied, setCopied] = useState(null)
 
   const handleCopy = async (text, index) => {
@@ -74,7 +75,7 @@ export default function SweetMessages({ messages = [] }) {
         <div className="w-7 h-7 rounded-lg bg-rose-500/15 flex items-center justify-center">
           <Mail size={14} className="text-rose-400" />
         </div>
-        <h2 className="font-semibold text-white text-lg">Sweet Messages to Send</h2>
+        <h2 className="font-semibold text-white text-lg">{getLabel('sweet_messages', language)}</h2>
         <span className="ml-auto text-xs text-slate-500">{messages.length}</span>
       </div>
 

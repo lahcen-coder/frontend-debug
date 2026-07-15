@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Lightbulb, Copy, CheckCheck } from 'lucide-react'
 import { toast } from 'react-hot-toast'
+import { getLabel } from '../../lib/reportLabels'
 
 // ── Vibe badge config ─────────────────────────────────────────────────────────
 
@@ -79,7 +80,7 @@ function SuggestionCard({ item, index, copied, onCopy }) {
  * New Phase 2 schema:
  *   report.activity_suggestions → [{ activity, reason, vibe }]
  */
-export default function Icebreakers({ suggestions = [] }) {
+export default function Icebreakers({ suggestions = [], language = 'english' }) {
   const [copied, setCopied] = useState(null)
 
   const handleCopy = async (text, index) => {
@@ -101,7 +102,7 @@ export default function Icebreakers({ suggestions = [] }) {
         <div className="w-7 h-7 rounded-lg bg-amber-500/15 flex items-center justify-center">
           <Lightbulb size={14} className="text-amber-400" />
         </div>
-        <h2 className="font-semibold text-white text-lg">Activity Ideas</h2>
+        <h2 className="font-semibold text-white text-lg">{getLabel('activity_ideas', language)}</h2>
         <span className="ml-auto text-xs text-slate-500">
           {suggestions.length} personalised suggestion{suggestions.length !== 1 ? 's' : ''}
         </span>

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Zap, MessageSquare, Scale, Sun, Timer } from 'lucide-react'
+import { getLabel } from '../../lib/reportLabels'
 
 // ── Score → colour mapping ────────────────────────────────────────────────────
 
@@ -158,7 +159,7 @@ function BreakdownBar({ label, value, icon: Icon, theme }) {
 
 // ── Main component ────────────────────────────────────────────────────────────
 
-export default function ChemistryScore({ score = 0, breakdown = {} }) {
+export default function ChemistryScore({ score = 0, breakdown = {}, language = 'english' }) {
   const theme = scoreTheme(score)
   const hasBreakdown = Object.values(breakdown).some((v) => v != null)
 
@@ -170,7 +171,7 @@ export default function ChemistryScore({ score = 0, breakdown = {} }) {
         <div className="w-7 h-7 rounded-lg bg-brand-500/15 flex items-center justify-center">
           <Zap size={14} className="text-brand-400" />
         </div>
-        <h2 className="font-semibold text-white text-lg">Chemistry Score</h2>
+        <h2 className="font-semibold text-white text-lg">{getLabel('chemistry_score', language)}</h2>
         <div className="ml-auto px-2.5 py-0.5 rounded-full bg-white/5 border border-white/10
           text-xs text-slate-400">
           {theme.sublabel}
